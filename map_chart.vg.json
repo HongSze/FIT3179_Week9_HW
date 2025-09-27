@@ -1,0 +1,32 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Population of Malaysia States 2025",
+  "width": 800,
+  "height": 600,
+  "projection": {"type": "mercator"},
+  "data": {
+    "url": "ne_malaysia_map.json",
+    "format": {"type": "topojson", "feature": "ne_malaysia_map"}
+  },
+  "transform": [
+    {
+      "lookup": "properties.name",
+      "from": {
+        "data": {
+          "url": "population_state_clean.csv",
+          "format": {"type": "csv"}
+        },
+        "key": "state",
+        "fields": ["population_000s"]
+      }
+    }
+  ],
+  "mark": {"type": "geoshape", "stroke": "white"},
+  "encoding": {
+    "color": {"field": "population_000s", "type": "quantitative"},
+    "tooltip": [
+      {"field": "properties.name", "type": "nominal", "title": "State"},
+      {"field": "population_000s", "type": "quantitative", "title": "Population"}
+    ]
+  }
+}
